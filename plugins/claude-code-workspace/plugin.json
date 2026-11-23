@@ -1,0 +1,9 @@
+{
+  "name": "Claude Code Workspace",
+  "description": "Rebuilds Antigravity 2.0 into the Claude Code Desktop 3-column experience: Unified Project Sidebar with Chat/Cowork/Code pill, Center Coordinator with 3 Card types & Compact Status Bar, and Right Overview Drawer with in-place Thread Inspector drill-down.",
+  "version": "1.0.1",
+  "author": "BetterGravity Claude Workspace",
+  "main": "index.js",
+  "styles": "styles/workspace.css",
+  "source": "file:///E:/BetterGravity/plugins/claude-code-workspace"
+}

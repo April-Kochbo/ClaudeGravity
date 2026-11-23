@@ -1,0 +1,1377 @@
+/* ==========================================================================
+   Claude Code Workspace — 3-Column Architecture & Component Stylesheet
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   2. Top TitleBar Controls: [Overview] Button (Claude Image 2 Style)
+   -------------------------------------------------------------------------- */
+.claude-titlebar-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 8px;
+  flex-shrink: 0;
+  -webkit-app-region: no-drag !important;
+  z-index: 50;
+}
+
+.claude-overview-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-family: var(--claude-font-sans, sans-serif);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--claude-text-primary, #141413);
+  background-color: var(--claude-bg-elevated, #FFFFFF);
+  border: 1px solid var(--claude-border-strong, #D5D2C8);
+  border-radius: 7px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(20, 20, 19, 0.03);
+  transition: all 120ms ease;
+  -webkit-app-region: no-drag !important;
+}
+
+.claude-overview-trigger:hover {
+  background-color: var(--claude-bg-hover, #EAE6DF);
+  border-color: #C2BEB2;
+}
+
+.claude-overview-trigger[data-open="true"] {
+  background-color: #EFECE6;
+  border-color: #C2BEB2;
+}
+
+.claude-overview-icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   3. Transcript View Mode Rules (Normal / Thinking / Verbose via Ctrl+O)
+   -------------------------------------------------------------------------- */
+/* Normal mode: keep consecutive tool call step details compact */
+body[data-claude-view-mode="normal"] [data-testid="run-command-step"] pre {
+  max-height: 92px;
+  overflow-y: auto;
+}
+
+/* Verbose mode: highlight full debug badges */
+body[data-claude-view-mode="verbose"] [data-testid="tool-group-collapsible"],
+body[data-claude-view-mode="verbose"] [data-testid="thinking-collapsible-trigger"] {
+  border-color: var(--claude-border-strong, #D5D2C8) !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. Right Column: Overview & In-Place Thread Inspector Drawer
+   -------------------------------------------------------------------------- */
+/* Third column: fixed under the top menu bar; hairline 1px divider, zero orange */
+body[data-claude-drawer-open="true"] .agy-shell > div.flex-1.flex.min-h-0.relative {
+  width: calc(100% - var(--claude-drawer-width, 380px)) !important;
+  max-width: calc(100% - var(--claude-drawer-width, 380px)) !important;
+  box-sizing: border-box !important;
+  transition: width 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.claude-drawer-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+#claude-right-drawer {
+  position: fixed !important;
+  right: 0 !important;
+  top: var(--claude-titlebar-h, 35px) !important;
+  bottom: 0 !important;
+  width: var(--claude-drawer-width, 380px);
+  min-width: 310px;
+  max-width: 580px;
+  background-color: var(--claude-bg-canvas, #FAF9F5);
+  border-left: 1px solid var(--claude-border-subtle, #E6E4DD) !important;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 90;
+  font-family: var(--claude-font-sans, sans-serif);
+  color: var(--claude-text-primary, #141413);
+  user-select: none;
+  box-shadow: none !important;
+  transition: width 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+#claude-right-drawer[data-collapsed="true"] {
+  display: none !important;
+}
+
+/* Left edge drag resizer on Right Drawer — subtle neutral hover, NEVER orange */
+.claude-drawer-resizer {
+  position: absolute;
+  left: -2px;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  cursor: col-resize;
+  z-index: 40;
+  background: transparent;
+}
+
+.claude-drawer-resizer:hover,
+.claude-drawer-resizer[data-dragging="true"] {
+  background-color: rgba(20, 20, 19, 0.08) !important;
+  opacity: 1 !important;
+}
+
+/* Drawer Header Bar (Claude Image 2 Style: Threads dropdown + tools + close) */
+.claude-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--claude-border-subtle, #E6E4DD);
+  background-color: var(--claude-bg-panel, #F3F1EA);
+}
+
+.claude-drawer-title-menu {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--claude-text-primary, #141413);
+  cursor: pointer;
+}
+
+.claude-drawer-header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.claude-drawer-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--claude-text-secondary, #5E5D57);
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.claude-drawer-action-btn:hover {
+  background-color: var(--claude-bg-hover, #EAE6DF);
+  color: var(--claude-text-primary, #141413);
+}
+
+/* Welcome Banner in Right Panel (Claude Image 2 Style) */
+.claude-drawer-welcome {
+  padding: 18px 16px 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.claude-drawer-welcome-h2 {
+  font-family: var(--claude-font-serif, Georgia, serif);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--claude-text-primary, #141413);
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.claude-drawer-welcome-sub {
+  font-size: 12.5px;
+  color: var(--claude-text-muted, #8C8A82);
+  margin: 0;
+}
+
+/* Drawer Body Scroll Area */
+.claude-drawer-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 8px 16px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Waiting On You Capsule (Image 2) */
+.claude-section-waiting-box {
+  background-color: #EFECE3;
+  border: 1px solid #DFDBD0;
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.claude-section-waiting-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--claude-text-primary, #141413);
+}
+
+.claude-section-waiting-desc {
+  font-size: 11px;
+  color: var(--claude-text-secondary, #5E5D57);
+}
+
+/* Collapsible Accordion Header (Working N / Resolved M) */
+.claude-accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 2px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--claude-text-primary, #141413);
+  cursor: pointer;
+  user-select: none;
+}
+
+.claude-accordion-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.claude-accordion-chevron {
+  display: inline-block;
+  font-size: 10px;
+  color: var(--claude-text-muted, #8C8A82);
+  transition: transform 140ms ease;
+}
+
+.claude-accordion-chevron[data-expanded="true"] {
+  transform: rotate(90deg);
+}
+
+.claude-accordion-count {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--claude-text-muted, #8C8A82);
+}
+
+/* Compact Thread List Items (Claude Image 2 Style: ~38px height, flat, clean, no borders) */
+.claude-thread-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.claude-thread-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 6px 8px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background-color 100ms ease;
+  user-select: none;
+}
+
+.claude-thread-item:hover {
+  background-color: var(--claude-bg-hover, #EAE6DF);
+}
+
+.claude-thread-item-icon {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid #A8A59C;
+  border-radius: 4px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: var(--claude-text-primary, #141413);
+}
+
+.claude-thread-item[data-status="working"] .claude-thread-item-icon {
+  border-color: var(--claude-accent, #D97757);
+  background-color: var(--claude-accent-subtle, #FDECE6);
+}
+
+.claude-thread-item-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.claude-thread-item-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--claude-text-primary, #141413);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.claude-thread-item-sub {
+  font-size: 11.5px;
+  color: var(--claude-text-muted, #8C8A82);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.claude-thread-item-time {
+  font-size: 11px;
+  color: var(--claude-text-muted, #8C8A82);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Right Column Drill-Down: In-Place Thread Inspector View
+   -------------------------------------------------------------------------- */
+.claude-inspector-topbar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--claude-border-subtle, #E6E4DD);
+  background-color: var(--claude-bg-panel, #F3F1EA);
+}
+
+.claude-inspector-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.claude-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--claude-text-secondary, #5E5D57);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.claude-back-btn:hover {
+  background-color: var(--claude-bg-hover, #EAE6DF);
+  color: var(--claude-text-primary, #141413);
+}
+
+.claude-inspector-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.claude-inspector-title {
+  font-family: var(--claude-font-serif, Georgia, serif);
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--claude-text-primary, #141413);
+  line-height: 1.3;
+}
+
+.claude-inspector-footer {
+  padding: 10px 14px;
+  border-top: 1px solid var(--claude-border-subtle, #E6E4DD);
+  background-color: var(--claude-bg-panel, #F3F1EA);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.claude-inspector-input-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.claude-inspector-input {
+  flex: 1 1 auto;
+  padding: 7px 10px;
+  font-size: 12.5px;
+  border-radius: 8px;
+  border: 1px solid var(--claude-border-strong, #D5D2C8);
+  background-color: var(--claude-bg-elevated, #FFFFFF);
+  color: var(--claude-text-primary, #141413);
+  outline: none;
+}
+
+.claude-inspector-input:focus {
+  border-color: var(--claude-accent, #D97757);
+}
+
+.claude-inspector-send-btn {
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--claude-accent, #D97757);
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.claude-inspector-send-btn:hover {
+  background-color: var(--claude-accent-strong, #C96442);
+}
+
+/* --------------------------------------------------------------------------
+   5.5 Bottom Docking for Composer Across All Views (Empty & Active)
+   -------------------------------------------------------------------------- */
+[data-testid="conversation-view"] {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+}
+
+[data-testid="conversation-view"] > div:has([data-testid="agent-input-box"]),
+[data-testid="conversation-view"] > div.relative.w-full.px-4.pb-2 {
+  margin-top: auto !important;
+  margin-bottom: 0 !important;
+  flex-shrink: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. Bottom Compact Status Bar (Right Above Composer Input Box)
+   -------------------------------------------------------------------------- */
+.claude-composer-statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 12px;
+  margin: 0 auto 6px auto;
+  max-width: var(--max-conversation-width, 800px);
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--claude-bg-panel, #F3F1EA);
+  border: 1px solid var(--claude-border-subtle, #E6E4DD);
+  border-radius: 10px;
+  font-family: var(--claude-font-sans, sans-serif);
+  font-size: 11.5px;
+  color: var(--claude-text-secondary, #5E5D57);
+  user-select: none;
+  gap: 8px;
+}
+
+.claude-statusbar-left,
+.claude-statusbar-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.claude-statusbar-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 11.5px;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.claude-statusbar-item:hover {
+  background-color: var(--claude-bg-hover, #EAE6DF);
+  color: var(--claude-text-primary, #141413);
+}
+
+.claude-statusbar-branch {
+  font-family: var(--claude-font-mono, monospace);
+  font-weight: 500;
+  color: var(--claude-text-primary, #141413);
+}
+
+.claude-diff-stat-add {
+  font-family: var(--claude-font-mono, monospace);
+  font-weight: 600;
+  color: var(--claude-diff-add-text, #226646);
+}
+
+.claude-diff-stat-del {
+  font-family: var(--claude-font-mono, monospace);
+  font-weight: 600;
+  color: var(--claude-diff-del-text, #B9382C);
+}
+
+.claude-statusbar-divider {
+  width: 1px;
+  height: 12px;
+  background-color: var(--claude-border-strong, #D5D2C8);
+  flex-shrink: 0;
+}
+
+/* Overview Changes Tab Cards */
+.claude-changes-summary-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background-color: var(--claude-bg-canvas, #FAF9F5);
+  border: 1px solid var(--claude-border-subtle, #E6E4DD);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--claude-text-primary, #141413);
+}
+
+.claude-changes-summary-stats {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.claude-review-btn {
+  padding: 3px 9px;
+  font-size: 11.5px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid var(--claude-border-strong, #D5D2C8);
+  background-color: var(--claude-bg-elevated, #FFFFFF);
+  color: var(--claude-text-primary, #141413);
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.claude-review-btn:hover {
+  background-color: var(--claude-bg-hover, #EAE6DF);
+  border-color: var(--claude-accent, #D97757);
+}
+
+.claude-change-file-card {
+  background-color: var(--claude-bg-elevated, #FFFFFF);
+  border: 1px solid var(--claude-border-subtle, #E6E4DD);
+  border-radius: 9px;
+  padding: 9px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: var(--claude-shadow-card);
+  transition: all 120ms ease;
+}
+
+.claude-change-file-card:hover {
+  border-color: var(--claude-accent, #D97757);
+  transform: translateY(-1px);
+}
+
+.claude-change-file-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.claude-change-file-name {
+  font-family: var(--claude-font-mono, monospace);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--claude-text-primary, #141413);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.claude-change-file-path {
+  font-family: var(--claude-font-mono, monospace);
+  font-size: 10.5px;
+  color: var(--claude-text-muted, #8C8A82);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.claude-change-file-stats {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  font-size: 11.5px;
+}
+
+/* --------------------------------------------------------------------------
+   7. Center Chat: 3 Standard Claude Card Types
+   -------------------------------------------------------------------------- */
+/* Type 1: Suggested Threads Card ("Start new threads") */
+.claude-card-suggested-threads {
+  background-color: var(--claude-bg-elevated, #FFFFFF);
+  border: 1px solid var(--claude-border-strong, #D5D2C8);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 12px 0;
+  box-shadow: var(--claude-shadow-card);
+  font-family: var(--claude-font-sans, sans-serif);
+}
+
+.claude-card-suggested-header {
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--claude-text-secondary, #5E5D57);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.claude-suggested-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.claude-suggested-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  background-color: var(--claude-bg-canvas, #FAF9F5);
+  border: 1px solid var(--claude-border-subtle, #E6E4DD);
+  border-radius: 8px;
+}
+
+.claude-suggested-item-title {
+  font-family: var(--claude-font-serif, Georgia, serif);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--claude-text-primary, #141413);
+}
+
+.claude-suggested-item-desc {
+  font-size: 12px;
+  color: var(--claude-text-secondary, #5E5D57);
+}
+
+.claude-suggested-start-single {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid var(--claude-border-strong, #D5D2C8);
+  background-color: var(--claude-bg-elevated, #FFFFFF);
+  color: var(--claude-text-primary, #141413);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.claude-suggested-start-single:hover {
+  border-color: var(--claude-accent, #D97757);
+  background-color: var(--claude-bg-hover, #EAE6DF);
+}
+
+.claude-suggested-start-all {
+  width: 100%;
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--claude-dark-cta, #141413);
+  color: var(--claude-dark-cta-text, #FAF9F5);
+  cursor: pointer;
+  transition: opacity 120ms ease;
+}
+
+.claude-suggested-start-all:hover {
+  opacity: 0.9;
+}
+
+/* Type 2: Claude Thread Capsules in Chat (Image 3 Style: Sleek rounded pills with git branch/PR badge) */
+.claude-thread-capsule {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background-color: var(--claude-bg-canvas, #FAF9F5);
+  border: 1px solid var(--claude-border-subtle, #E6E4DD);
+  border-radius: 12px;
+  padding: 8px 14px;
+  margin: 5px 0;
+  cursor: pointer;
+  transition: all 120ms ease;
+  font-family: var(--claude-font-sans, sans-serif);
+  width: 100%;
+  max-width: var(--max-conversation-width, 800px);
+  box-sizing: border-box;
+}
+
+.claude-thread-capsule:hover {
+  background-color: var(--claude-bg-elevated, #FFFFFF);
+  border-color: var(--claude-border-strong, #D5D2C8);
+  box-shadow: 0 1px 4px rgba(20, 20, 19, 0.04);
+}
+
+.claude-thread-capsule-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.claude-thread-capsule-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid #8C8A82;
+  background-color: transparent;
+  flex-shrink: 0;
+}
+
+.claude-thread-capsule-dot[data-status="working"] {
+  border-color: #8C8A82;
+  background-color: #8C8A82;
+}
+
+.claude-thread-capsule-title {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--claude-text-primary, #141413);
+  white-space: nowrap;
+}
+
+.claude-thread-capsule-desc {
+  font-size: 12px;
+  color: #6B7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.claude-thread-capsule-badges {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.claude-pr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #F1EFFD;
+  color: #6D28D9;
+  border-radius: 6px;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: var(--claude-font-mono, monospace);
+}
+
+.claude-card-active-thread {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 14px;
+  margin: 6px 0;
+  background-color: var(--claude-bg-canvas, #FAF9F5);
+  border: 1px solid var(--claude-border-subtle, #E6E4DD);
+  border-radius: 12px;
+  box-shadow: none;
+  cursor: pointer;
+  font-family: var(--claude-font-sans, sans-serif);
+  transition: all 120ms ease;
+}
+
+.claude-card-active-thread:hover {
+  background-color: var(--claude-bg-elevated, #FFFFFF);
+  border-color: var(--claude-border-strong, #D5D2C8);
+}
+
+.claude-active-thread-title {
+  font-family: var(--claude-font-sans, sans-serif);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--claude-text-primary, #141413);
+}
+
+.claude-active-thread-step {
+  font-size: 12px;
+  color: #6B7280;
+}
+
+/* --------------------------------------------------------------------------
+   8. M3: Drawer Dropdown Menu & Quick Search Bar
+   -------------------------------------------------------------------------- */
+.claude-drawer-title-menu {
+  position: relative;
+  user-select: none;
+}
+
+.claude-drawer-menu-popover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 6px;
+  background-color: var(--claude-bg-elevated, #FFFFFF);
+  border: 1px solid var(--claude-border-strong, #D5D2C8);
+  border-radius: 9px;
+  box-shadow: 0 4px 16px rgba(20, 20, 19, 0.08), 0 1px 3px rgba(20, 20, 19, 0.05);
+  padding: 4px;
+  min-width: 150px;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.claude-drawer-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--claude-text-primary, #141413);
+  cursor: pointer;
+  transition: background-color 100ms ease;
+}
+
+.claude-drawer-menu-item:hover {
+  background-color: var(--claude-bg-hover, #EAE6DF);
+}
+
+.claude-drawer-menu-item[data-active="true"] {
+  background-color: #EFECE6;
+  font-weight: 600;
+}
+
+.claude-drawer-menu-count {
+  font-size: 11px;
+  color: var(--claude-text-muted, #8C8A82);
+  background-color: rgba(20, 20, 19, 0.05);
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   8.1 Inline Expandable Search in Header (Never covers Threads text)
+   -------------------------------------------------------------------------- */
+.claude-drawer-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  padding: 10px 16px !important;
+  border-bottom: 1px solid var(--claude-border-subtle, #E6E4DD) !important;
+  background-color: var(--claude-bg-panel, #F3F1EA) !important;
+  min-height: 44px !important;
+  box-sizing: border-box !important;
+}
+
+.claude-drawer-title-menu {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: var(--claude-text-primary, #141413) !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important; /* Threads ▾ is strictly fixed on the left */
+}
+
+.claude-header-inline-search-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 2px 8px !important;
+  background-color: #EFECE6 !important;
+  border: 1px solid #DFDBD0 !important;
+  border-radius: 7px !important;
+  max-width: 190px !important;
+  min-width: 120px !important;
+  flex: 1 1 auto !important;
+  transition: all 120ms ease !important;
+  box-sizing: border-box !important;
+}
+
+.claude-header-inline-search-pill:focus-within {
+  background-color: #FFFFFF !important;
+  border-color: var(--claude-border-strong, #D5D2C8) !important;
+  box-shadow: 0 1px 3px rgba(20, 20, 19, 0.04) !important;
+}
+
+.claude-header-search-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  color: var(--claude-text-muted, #8C8A82) !important;
+  flex-shrink: 0 !important;
+}
+
+.claude-header-inline-search-input {
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  height: 20px !important;
+  line-height: 20px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--claude-text-primary, #141413) !important;
+  font-family: var(--claude-font-sans, "Inter", sans-serif) !important;
+  font-size: 12px !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  box-sizing: border-box !important;
+}
+
+.claude-header-inline-search-input:focus,
+.claude-header-inline-search-input:focus-visible {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.claude-header-inline-search-input::placeholder {
+  color: var(--claude-text-muted, #8C8A82) !important;
+  font-size: 11.5px !important;
+}
+
+.claude-header-search-close {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 4px !important;
+  border: none !important;
+  background: transparent !important;
+  color: var(--claude-text-muted, #8C8A82) !important;
+  cursor: pointer !important;
+  transition: all 100ms ease !important;
+  flex-shrink: 0 !important;
+}
+
+.claude-header-search-close:hover {
+  background-color: var(--claude-bg-hover, #EAE6DF) !important;
+  color: var(--claude-text-primary, #141413) !important;
+}
+
+/* --------------------------------------------------------------------------
+   8.1 Inline Changed Files Card (Monospace baseline alignment, zero jitter)
+   -------------------------------------------------------------------------- */
+[data-testid="changed-files-card"] {
+  width: 100% !important;
+  max-width: var(--max-conversation-width, 800px) !important;
+  margin: 6px 0 !important;
+  border-radius: 9px !important;
+  box-sizing: border-box !important;
+}
+
+[data-testid="changed-files-card-header"],
+.files-changed-header {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  padding: 0 12px !important;
+  background-color: var(--claude-bg-canvas, #FAF9F5) !important;
+  border: 1px solid var(--claude-border-subtle, #E6E4DD) !important;
+  border-radius: 9px !important;
+  box-shadow: none !important;
+  transition: all 120ms ease !important;
+  line-height: 1 !important;
+}
+
+[data-testid="changed-files-card-header"]:hover {
+  background-color: var(--claude-bg-elevated, #FFFFFF) !important;
+  border-color: var(--claude-border-strong, #D5D2C8) !important;
+}
+
+[data-testid="changed-files-card-header"] > div.flex {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  line-height: 1 !important;
+  vertical-align: middle !important;
+}
+
+[data-testid="changed-files-card-header"] span.truncate {
+  font-family: var(--claude-font-sans, "Inter", sans-serif) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: var(--claude-text-primary, #141413) !important;
+  line-height: 1 !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+[data-testid="changed-files-card-header"] div.flex.items-center.gap-0\.5,
+[data-testid="changed-files-card-header"] div.gap-0\.5 {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  font-family: var(--claude-font-mono, "JetBrains Mono", monospace) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-variant-numeric: tabular-nums !important;
+  line-height: 1 !important;
+  vertical-align: middle !important;
+}
+
+[data-testid="changed-files-card-header"] span.text-green-500 {
+  color: var(--claude-diff-add-text, #226646) !important;
+  font-family: var(--claude-font-mono, "JetBrains Mono", monospace) !important;
+  font-variant-numeric: tabular-nums !important;
+  line-height: 1 !important;
+}
+
+[data-testid="changed-files-card-header"] span.text-red-500 {
+  color: var(--claude-diff-del-text, #B9382C) !important;
+  font-family: var(--claude-font-mono, "JetBrains Mono", monospace) !important;
+  font-variant-numeric: tabular-nums !important;
+  line-height: 1 !important;
+}
+
+[data-testid="changed-files-card-header"] svg.shrink-0 {
+  display: inline-flex !important;
+  align-self: center !important;
+  width: 13px !important;
+  height: 13px !important;
+  color: var(--claude-text-muted, #8C8A82) !important;
+  vertical-align: middle !important;
+  margin-left: 2px !important;
+}
+
+[data-testid="changed-files-card-review"],
+[data-testid="changed-files-card-header"] button.review-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 24px !important;
+  padding: 0 9px !important;
+  border-radius: 6px !important;
+  background-color: var(--claude-bg-elevated, #FFFFFF) !important;
+  border: 1px solid var(--claude-border-strong, #D5D2C8) !important;
+  color: var(--claude-text-primary, #141413) !important;
+  font-family: var(--claude-font-sans, "Inter", sans-serif) !important;
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  box-shadow: 0 1px 2px rgba(20, 20, 19, 0.03) !important;
+  cursor: pointer !important;
+  transition: all 120ms ease !important;
+}
+
+[data-testid="changed-files-card-review"]:hover,
+[data-testid="changed-files-card-header"] button.review-button:hover {
+  background-color: var(--claude-bg-hover, #EAE6DF) !important;
+  border-color: #B8B4A7 !important;
+}
+
+/* --------------------------------------------------------------------------
+   9. M3: Library Tab Component Cards
+   -------------------------------------------------------------------------- */
+.claude-library-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.claude-library-item-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background-color: var(--claude-bg-elevated, #FFFFFF);
+  border: 1px solid var(--claude-border-subtle, #E6E4DD);
+  border-radius: 9px;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: all 120ms ease;
+  user-select: none;
+}
+
+.claude-library-item-card:hover {
+  border-color: var(--claude-accent, #D97757);
+  transform: translateY(-1px);
+  box-shadow: var(--claude-shadow-card);
+}
+
+.claude-library-item-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.claude-library-item-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.claude-library-item-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.claude-library-item-title {
+  font-family: var(--claude-font-mono, monospace);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--claude-text-primary, #141413);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.claude-library-item-path {
+  font-size: 11px;
+  color: var(--claude-text-muted, #8C8A82);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.claude-library-badge {
+  font-size: 10.5px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background-color: #EFECE6;
+  color: var(--claude-text-secondary, #5E5D57);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   10. M3: Chat Stream Capsule Wrappers & List Reset
+   -------------------------------------------------------------------------- */
+ul:has(> li.claude-capsule-wrapper),
+ol:has(> li.claude-capsule-wrapper) {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin: 6px 0 !important;
+}
+
+li.claude-capsule-wrapper {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 4px 0 !important;
+}
+
+.claude-inspector-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.claude-inspector-check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background-color: var(--claude-bg-elevated, #FFFFFF);
+  border: 1px solid var(--claude-border-subtle, #E6E4DD);
+  font-size: 12.5px;
+  color: var(--claude-text-primary, #141413);
+}
+
+.claude-inspector-check-box {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid #A8A59C;
+  border-radius: 4px;
+  margin-top: 1px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+}
+
+.claude-inspector-check-box[data-done="true"] {
+  border-color: #2E7D5B;
+  background-color: #E7F4EE;
+  color: #2E7D5B;
+}
+
+.claude-show-more-btn {
+  background: transparent;
+  border: none;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--claude-text-muted, #8C8A82);
+  cursor: pointer;
+  padding: 4px 8px;
+  text-align: left;
+  border-radius: 6px;
+  transition: all 120ms ease;
+}
+
+.claude-show-more-btn:hover {
+  background-color: var(--claude-bg-hover, #EAE6DF);
+  color: var(--claude-text-primary, #141413);
+}
+
+
+/* ── M4: Thread chat view (Claude-style, hairline, no heavy fills) ───────── */
+.claude-inspector-tabs { display: flex; gap: 2px; padding: 6px 0 0; }
+.claude-inspector-tab {
+  appearance: none; border: 0; background: transparent; cursor: pointer;
+  font: 500 12px/1 var(--claude-sans, Inter, system-ui, sans-serif);
+  color: var(--claude-text-muted, #87867f); padding: 6px 10px; border-radius: 6px;
+}
+.claude-inspector-tab:hover { background: rgba(20, 20, 19, 0.05); }
+.claude-inspector-tab[data-active="true"] { color: var(--claude-text, #141413); background: rgba(20, 20, 19, 0.06); }
+.claude-tchat { display: flex; flex-direction: column; gap: 14px; padding: 4px 2px 24px; }
+.claude-tchat-user { display: flex; justify-content: flex-end; }
+.claude-tchat-user-bubble {
+  max-width: 88%; padding: 8px 12px; border-radius: 14px; white-space: pre-wrap; word-break: break-word;
+  background: rgba(20, 20, 19, 0.05); font-size: 13px; line-height: 1.5;
+}
+.claude-tchat-assistant { font-size: 13px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+.claude-tchat-think { font-size: 12px; color: var(--claude-text-muted, #87867f); }
+.claude-tchat-think summary { cursor: pointer; list-style: none; }
+.claude-tchat-think div { margin-top: 6px; padding-left: 10px; border-left: 1px solid rgba(20, 20, 19, 0.12); white-space: pre-wrap; }
+.claude-tchat-tools { display: flex; flex-direction: column; gap: 4px; }
+.claude-tchat-tool {
+  display: flex; gap: 8px; align-items: baseline; min-width: 0; padding: 5px 10px;
+  border: 1px solid rgba(20, 20, 19, 0.10); border-radius: 8px; font-size: 12px;
+}
+.claude-tchat-tool-name { flex: none; color: var(--claude-text, #141413); }
+.claude-tchat-tool-arg {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: var(--claude-text-muted, #87867f); font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px;
+}
+
+.claude-inspector-model {
+  margin-top: 6px; max-width: 100%; font: 500 11px/1 var(--claude-sans, Inter, system-ui, sans-serif);
+  color: var(--claude-text-muted, #87867f); background: transparent; border: 1px solid rgba(20, 20, 19, 0.10);
+  border-radius: 6px; padding: 4px 6px; outline: none; cursor: pointer;
+}
+.claude-inspector-model:focus { border-color: rgba(20, 20, 19, 0.25); }
+
+/* ── Thread composer mirrors the main composer ── */
+.claude-inspector-footer { position: relative; }
+.claude-thread-composer-input { min-height: 40px; max-height: 300px; font-family: inherit; color: inherit; border: 0; overflow-y: auto; }
+.claude-thread-composer-input::placeholder { color: inherit; opacity: 0.6; }
+.claude-thread-send { background: var(--claude-border-soft, rgba(20, 20, 19, 0.06)); color: var(--claude-text, #141413); border: 0; }
+.claude-thread-send:disabled { opacity: 0.45; cursor: default; }
+.claude-thread-send:not(:disabled) { background: var(--claude-accent, #d97757); color: #fff; }
+.claude-thread-composer-msg { font-size: 11px; color: #b53333; padding: 6px 4px 0; }
+.claude-model-menu {
+  position: absolute; left: 12px; bottom: calc(100% - 8px); z-index: 50; min-width: 230px; max-height: 320px; overflow-y: auto;
+  padding: 4px; background: var(--claude-surface, #faf9f5); border: 1px solid rgba(20, 20, 19, 0.12);
+  border-radius: 12px; box-shadow: 0 6px 24px rgba(20, 20, 19, 0.10);
+}
+.claude-model-item {
+  appearance: none; border: 0; background: transparent; width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 7px 10px; border-radius: 8px; font: 400 12.5px/1.2 inherit; color: var(--claude-text, #141413); cursor: pointer; text-align: left;
+}
+.claude-model-item:hover { background: rgba(20, 20, 19, 0.05); }
+.claude-model-sep { height: 1px; margin: 4px 6px; background: rgba(20, 20, 19, 0.08); }
+
+#claude-right-drawer textarea.claude-thread-composer-input,
+#claude-right-drawer textarea.claude-thread-composer-input:hover,
+#claude-right-drawer textarea.claude-thread-composer-input:focus,
+#claude-right-drawer textarea.claude-thread-composer-input:focus-visible {
+  border: none !important; outline: none !important; box-shadow: none !important;
+  background: transparent !important; border-radius: 8px !important; appearance: none !important;
+}
+.claude-inspector-footer .surface-composer-card { background: var(--claude-surface-raised, #fff); }
+
+/* ── Capsules v2: content-sized, left-aligned, one line (Claude thread chips) ── */
+.claude-capsule-list { list-style: none !important; padding-left: 0 !important; margin: 6px 0 !important; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+li.claude-capsule-wrapper { list-style: none !important; margin: 0 !important; padding: 0 !important; display: block; max-width: 100%; }
+li.claude-capsule-wrapper::marker { content: ""; }
+.claude-thread-capsule { display: inline-flex !important; width: fit-content !important; max-width: 100% !important; margin: 0 !important; padding: 7px 14px !important; gap: 10px; }
+.claude-thread-capsule-left { gap: 10px; min-width: 0; }
+.claude-thread-capsule-title { flex: none; }
+.claude-thread-capsule-desc { min-width: 0; max-width: 460px; }
+.claude-thread-capsule-desc:empty { display: none; }
+.claude-thread-capsule-dot[data-status="working"] { animation: claude-pulse 1.6s infinite ease-in-out; }
+.claude-thread-capsule-dot[data-status="waiting"] { border-color: #d97757; }
+
+/* ── Thread chat, rendered like the main conversation ── */
+.claude-tchat { gap: 12px; }
+.claude-tchat-assistant { white-space: normal; }
+.claude-tw, .claude-tw-row { border: 1px solid rgba(20, 20, 19, 0.08); background: rgba(20, 20, 19, 0.035); border-radius: 10px; }
+.claude-tw-row { background: rgba(20, 20, 19, 0.04); margin: 6px 0 0 12px; border-radius: 9px; }
+.claude-tw-head, .claude-tw-row-head {
+  appearance: none; border: 0; background: transparent; width: 100%; display: flex; align-items: center; gap: 6px;
+  padding: 8px 12px; cursor: pointer; text-align: left; font: 400 12.5px/1.2 inherit; color: var(--claude-text-muted, #6b6a63);
+}
+.claude-tw-row-head { padding: 7px 11px; }
+.claude-tw-head:hover, .claude-tw-row-head:hover { color: var(--claude-text, #141413); }
+.claude-tw-body { padding: 0 8px 8px; }
+.claude-tw-row-body { padding: 0 10px 8px; }
+.claude-chev { display: inline-flex; transition: transform 120ms ease; transform: rotate(-90deg); opacity: 0.7; }
+[data-open="true"] > button > .claude-chev { transform: none; }
+.claude-tw-label, .claude-tw-row-label { flex: none; }
+.claude-tchat-tool-stat { margin-left: auto; display: inline-flex; gap: 6px; font-size: 11px; font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+.claude-md { font-size: 13px; line-height: 1.65; word-break: break-word; }
+.claude-md > :first-child { margin-top: 0; }
+.claude-md > :last-child { margin-bottom: 0; }
+.claude-md p { margin: 0 0 10px; }
+.claude-md h3, .claude-md h4, .claude-md h5, .claude-md h6 { margin: 14px 0 6px; font-family: var(--claude-font-serif, "Newsreader", Georgia, serif); font-weight: 600; line-height: 1.3; }
+.claude-md h3 { font-size: 16px; } .claude-md h4 { font-size: 14.5px; } .claude-md h5, .claude-md h6 { font-size: 13.5px; }
+.claude-md ul, .claude-md ol { margin: 0 0 10px; padding-left: 20px; }
+.claude-md li { margin: 2px 0; }
+.claude-md code { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11.5px; padding: 1px 5px; border-radius: 5px; background: rgba(20, 20, 19, 0.06); }
+.claude-md pre { margin: 0 0 10px; padding: 10px 12px; overflow-x: auto; border-radius: 10px; background: rgba(20, 20, 19, 0.045); border: 1px solid rgba(20, 20, 19, 0.08); }
+.claude-md pre code { padding: 0; background: transparent; font-size: 11.5px; line-height: 1.55; }
+.claude-md blockquote { margin: 0 0 10px; padding-left: 12px; border-left: 2px solid rgba(20, 20, 19, 0.15); color: var(--claude-text-muted, #6b6a63); }
+.claude-md hr { border: 0; border-top: 1px solid rgba(20, 20, 19, 0.1); margin: 12px 0; }
+.claude-md a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.claude-md table { border-collapse: collapse; margin: 0 0 10px; font-size: 12px; display: block; overflow-x: auto; }
+.claude-md th, .claude-md td { border: 1px solid rgba(20, 20, 19, 0.12); padding: 4px 8px; text-align: left; }
+.claude-md th { background: rgba(20, 20, 19, 0.04); font-weight: 600; }
+
+/* ── Inline file pills in thread markdown (parity with main session) ── */
+.claude-md .context-scope-mention { display: inline; vertical-align: baseline; }
+.claude-md .inline-pill {
+  display: inline-flex; align-items: baseline; vertical-align: baseline; gap: 3px;
+  padding: 1px 5px; margin: 0 1px; border-radius: 6px; border: 0;
+  background: rgba(20, 20, 19, 0.055); color: var(--claude-text, #141413);
+  font-family: var(--claude-font-sans, Inter, system-ui, sans-serif); font-size: 12.5px; font-weight: 500; line-height: 1.35;
+  cursor: pointer; transition: background-color 120ms ease;
+}
+.claude-md .inline-pill:hover { background: rgba(20, 20, 19, 0.10); }
+.claude-md .inline-pill img { vertical-align: -3px; }

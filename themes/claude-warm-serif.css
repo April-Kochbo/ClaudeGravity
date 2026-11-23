@@ -1,0 +1,823 @@
+/**
+ * @name        Claude Warm Serif
+ * @description Authentic Claude Code Desktop (Sept-Oct 2026) Warm Cream / Parchment light theme with Terracotta accents and Editorial Serif typography for Antigravity 2.0.
+ * @author      BetterGravity Claude Workspace
+ * @version     1.0.0
+ * @source      file:///E:/BetterGravity/themes/claude-warm-serif.css
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap');
+@import url('./fonts/local-fonts.css');
+
+/* ==========================================================================
+   0. Claude Warm Cream & Terracotta Design Tokens
+   ========================================================================== */
+:root {
+  /* Core Surfaces (Warm Parchment / Cream Light Palette) */
+  --claude-bg-canvas:        #FAF9F5; /* Center main conversation canvas */
+  --claude-bg-panel:         #F3F1EA; /* Left unified sidebar & Right Overview panel */
+  --claude-bg-elevated:      #FFFFFF; /* Cards, Composer box, Popovers, Modals */
+  --claude-bg-subtle:        #EFECE4; /* Code blocks, table headers, subtle pills */
+  --claude-bg-hover:         #EAE6DF; /* Row hover & interactive pill hover */
+  --claude-bg-selected:      #E4DFD5; /* Selected conversation row / active tab */
+
+  /* Borders & Hairlines */
+  --claude-border-subtle:    #E6E4DD; /* Primary 1px structural divider */
+  --claude-border-strong:    #D5D2C8; /* Input box border, card hover border */
+  --claude-border-focus:     #D97757; /* Focus ring & active terracotta border */
+
+  /* Typography Colors (Warm Charcoal, zero harsh pure-black #000) */
+  --claude-text-primary:     #141413; /* Primary prose, headings, active labels */
+  --claude-text-secondary:   #5E5D57; /* Subtitles, secondary controls, summaries */
+  --claude-text-muted:       #8C8A82; /* Timestamps, placeholders, collapsed hints */
+
+  /* Brand Terracotta / Orange-Yellow Accents */
+  --claude-accent:           #D97757; /* Claude signature terracotta orange */
+  --claude-accent-strong:    #C96442; /* Hover / active button state */
+  --claude-accent-soft:      rgba(217, 119, 87, 0.14);
+  --claude-accent-subtle:    #FDECE6;
+  --claude-dark-cta:         #141413; /* Claude dark primary action button ("Start N threads") */
+  --claude-dark-cta-text:    #FAF9F5;
+
+  /* Thread & Diff Semantic Status Colors */
+  --claude-status-waiting:      #D97706;
+  --claude-status-waiting-bg:   #FEF3C7;
+  --claude-status-working:      #C96442;
+  --claude-status-working-bg:   #FDECE6;
+  --claude-status-completed:    #2E7D5B;
+  --claude-status-completed-bg: #E7F4EE;
+  --claude-diff-add-text:       #226646;
+  --claude-diff-add-bg:         #E6F4EC;
+  --claude-diff-del-text:       #B9382C;
+  --claude-diff-del-bg:         #FCEBE9;
+
+  /* Editorial Font Stacks */
+  --claude-font-serif: "Source Serif 4", "Newsreader", "Iowan Old Style", "Charter", "Georgia", "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --claude-font-sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", sans-serif;
+  --claude-font-mono:  "JetBrains Mono", "Cascadia Code", "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  /* Shadows */
+  --claude-shadow-card:    0 1px 3px rgba(20, 20, 19, 0.04), 0 1px 2px rgba(20, 20, 19, 0.02);
+  --claude-shadow-composer:0 4px 20px rgba(20, 20, 19, 0.06), 0 1px 3px rgba(20, 20, 19, 0.04);
+  --claude-shadow-popover: 0 10px 32px rgba(20, 20, 19, 0.10), 0 2px 6px rgba(20, 20, 19, 0.05);
+}
+
+/* ==========================================================================
+   1. Antigravity Host & BetterGravity Token Overrides (!important required)
+   ========================================================================== */
+:root,
+html,
+body {
+  color-scheme: light !important;
+
+  /* Host Semantic Tokens */
+  --background:           var(--claude-bg-canvas) !important;
+  --foreground:           var(--claude-text-primary) !important;
+
+  --primary:              var(--claude-accent) !important;
+  --primary-foreground:   #FFFFFF !important;
+  --secondary:            var(--claude-bg-subtle) !important;
+  --secondary-foreground: var(--claude-text-primary) !important;
+
+  --muted:                var(--claude-bg-panel) !important;
+  --muted-foreground:     var(--claude-text-secondary) !important;
+
+  --accent:               var(--claude-bg-hover) !important;
+  --accent-foreground:    var(--claude-text-primary) !important;
+
+  --border:               var(--claude-border-subtle) !important;
+  --input:                var(--claude-border-strong) !important;
+  /* Neutral warm-gray focus ring: a terracotta ring was drawing an orange outline around focused containers. */
+  --ring:                 rgba(20, 20, 19, 0.14) !important;
+  --focus-ring-color:     rgba(20, 20, 19, 0.14) !important;
+
+  --card:                 var(--claude-bg-elevated) !important;
+  --card-foreground:      var(--claude-text-primary) !important;
+  --card-border:          var(--claude-border-subtle) !important;
+
+  --popover:              var(--claude-bg-elevated) !important;
+  --popover-foreground:   var(--claude-text-primary) !important;
+
+  --sidebar:              var(--claude-bg-panel) !important;
+  --sidebar-background:   var(--claude-bg-panel) !important;
+  --color-sidebar:        var(--claude-bg-panel) !important;
+  --sidebar-foreground:   var(--claude-text-primary) !important;
+  --sidebar-secondary:    var(--claude-bg-selected) !important;
+  --sidebar-muted:        var(--claude-bg-hover) !important;
+  --sidebar-border:       var(--claude-border-subtle) !important;
+
+  --placeholder:          var(--claude-text-muted) !important;
+  --link:                 var(--claude-accent-strong) !important;
+  --code-foreground:      #9E472A !important;
+
+  --error:                #C93B2B !important;
+  --warning:              #D97706 !important;
+  --success:              #2E7D5B !important;
+
+  /* Reading Column Width (Claude spacious center column) */
+  --max-conversation-width: 800px !important;
+
+  /* BetterGravity Shared Runtime Tokens */
+  --bettergravity-accent:      var(--claude-accent) !important;
+  --bettergravity-accent-soft: var(--claude-accent-soft) !important;
+  --bettergravity-surface:     var(--claude-bg-elevated) !important;
+  --bettergravity-border:      var(--claude-border-subtle) !important;
+  --bettergravity-text:        var(--claude-text-primary) !important;
+  --bettergravity-row-hover:   var(--claude-bg-hover) !important;
+
+  /* Gemini-app Interop Tokens (if loaded alongside) */
+  --gemini-page-bg:         var(--claude-bg-canvas) !important;
+  --gemini-body-text:       var(--claude-text-primary) !important;
+  --gemini-bubble-bg:       #F0EDE4 !important;
+  --gemini-composer-bg:     var(--claude-bg-elevated) !important;
+  --gemini-surface:         var(--claude-bg-panel) !important;
+  --gemini-surface-hover:   var(--claude-bg-hover) !important;
+  --gemini-text:            var(--claude-text-primary) !important;
+  --gemini-row-hover:       var(--claude-bg-hover) !important;
+  --gemini-row-selected:    var(--claude-bg-selected) !important;
+  --gemini-inline-code-bg:  var(--claude-bg-subtle) !important;
+  --gemini-inline-code-text:#9E472A !important;
+}
+
+body,
+#root {
+  background-color: var(--claude-bg-canvas) !important;
+  color: var(--claude-text-primary) !important;
+  font-family: var(--claude-font-sans) !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ==========================================================================
+   2. Editorial Serif Typography System (Claude Signature Look)
+   ========================================================================== */
+
+/* 2.1 AI Coordinator Responses & Narrative Prose in Serif */
+[data-testid="planner-response-text"],
+[role="article"][aria-label="Agent response"] {
+  font-family: var(--claude-font-serif) !important;
+  font-size: 16px !important;
+  line-height: 1.72 !important;
+  letter-spacing: 0.005em !important;
+  color: var(--claude-text-primary) !important;
+}
+
+[data-testid="planner-response-text"] :is(p, li, blockquote, dd),
+[role="article"][aria-label="Agent response"] :is(p, li, blockquote, dd) {
+  font-family: var(--claude-font-serif) !important;
+  color: var(--claude-text-primary) !important;
+}
+
+/* 2.2 Editorial Headings (H1 - H4) across Conversation, Welcome Screen & Artifacts */
+[data-testid="conversation-view"] :is(h1, h2, h3, h4),
+[data-testid="planner-response-text"] :is(h1, h2, h3, h4),
+.claude-serif-heading {
+  font-family: var(--claude-font-serif) !important;
+  color: var(--claude-text-primary) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.015em !important;
+  line-height: 1.32 !important;
+}
+
+[data-testid="planner-response-text"] h1 {
+  font-size: 1.55rem !important;
+  margin-top: 1.4rem !important;
+  margin-bottom: 0.65rem !important;
+  border-bottom: 1px solid var(--claude-border-subtle) !important;
+  padding-bottom: 0.35rem !important;
+}
+
+[data-testid="planner-response-text"] h2 {
+  font-size: 1.28rem !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+[data-testid="planner-response-text"] h3 {
+  font-size: 1.1rem !important;
+  margin-top: 1rem !important;
+  margin-bottom: 0.4rem !important;
+}
+
+/* 2.3 Keep UI Controls, Tool Collapsibles, Tables & Code Blocks in Sans/Mono */
+[data-testid="thinking-collapsible-trigger"],
+[data-testid="worked-for-collapsible"],
+[data-testid="tool-group-collapsible"],
+[data-testid="run-command-step"],
+[data-testid="trajectory-file-changes"],
+[data-testid="user-input-step"] {
+  font-family: var(--claude-font-sans) !important;
+}
+
+pre,
+code,
+.code-block,
+[data-testid="run-command-step"] pre {
+  font-family: var(--claude-font-mono) !important;
+}
+
+/* ==========================================================================
+   3. Window TitleBar & Top Navigation Bar
+   ========================================================================== */
+header,
+[data-testid="window-titlebar"],
+.titlebar,
+header:has([data-testid="sidebar-toggle"]) {
+  background-color: var(--claude-bg-panel) !important;
+  background: var(--claude-bg-panel) !important;
+  border-bottom: 1px solid var(--claude-border-subtle) !important;
+  color: var(--claude-text-primary) !important;
+  user-select: none;
+}
+
+/* No decorative top hairline: Claude's chrome is flat. */
+
+[data-testid="window-titlebar"] :is(button, span, svg),
+[data-testid="title-menu-bar"] :is(button, span, svg),
+[data-testid="window-controls"] :is(button, svg) {
+  color: var(--claude-text-secondary) !important;
+}
+
+[data-testid="window-titlebar"] button:hover,
+[data-testid="title-menu-bar"] button:hover {
+  background-color: var(--claude-bg-hover) !important;
+  color: var(--claude-text-primary) !important;
+}
+
+/* ==========================================================================
+   4. Left Unified Single Sidebar (Claude Warm Panel Style)
+   ========================================================================== */
+[role="navigation"][aria-label="Sidebar"],
+[role="navigation"]:has([data-testid="conversation-list-sidebar"]),
+[data-testid="conversation-list-sidebar"] {
+  background-color: var(--claude-bg-panel) !important;
+  background: var(--claude-bg-panel) !important;
+  color: var(--claude-text-primary) !important;
+}
+
+[role="navigation"][aria-label="Sidebar"] {
+  border-right: 1px solid var(--claude-border-subtle) !important;
+}
+
+/* Project Group Headers in Left Sidebar */
+[data-testid="project-group"],
+[data-project-card],
+[role="navigation"] [class*="section-header"],
+[data-testid="section-header"] {
+  background: transparent !important;
+  color: var(--claude-text-secondary) !important;
+  font-family: var(--claude-font-sans) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* Conversation Rows in Left Sidebar */
+[data-testid="conversation-row-sidebar"] {
+  --row-bg: var(--claude-bg-panel) !important;
+  border-radius: 8px !important;
+  margin: 1px 6px !important;
+  color: var(--claude-text-secondary) !important;
+  transition: background-color 120ms ease, color 120ms ease !important;
+}
+
+[data-testid="conversation-row-sidebar"]:hover {
+  --row-bg: var(--claude-bg-hover) !important;
+  background-color: var(--claude-bg-hover) !important;
+  color: var(--claude-text-primary) !important;
+}
+
+/* Claude selected session: one soft flat fill, no accent bar, no border. */
+[data-testid="conversation-row-sidebar"][data-selected="true"] {
+  --row-bg: var(--claude-bg-selected) !important;
+  background-color: var(--claude-bg-selected) !important;
+  color: var(--claude-text-primary) !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+}
+
+/* Seamless hover action overlay (⋮ / Stop) matching the row's warm background */
+[data-testid="conversation-row-sidebar"] div[style*="linear-gradient"] {
+  background: linear-gradient(to right, transparent 0%, var(--row-bg, var(--claude-bg-hover)) 28%, var(--row-bg, var(--claude-bg-hover)) 100%) !important;
+  box-shadow: none !important;
+}
+
+/* Keep row hover uncluttered like Claude: show ⋯ (and Stop if running), hide inline Pin/Archive duplicates */
+[data-testid="conversation-row-sidebar"] [data-testid="conversation-pin-button"],
+[data-testid="conversation-row-sidebar"] [data-testid="conversation-archive-button"] {
+  display: none !important;
+}
+
+[data-testid="conversation-row-sidebar"] [data-testid="conversation-kebab"],
+[data-testid="conversation-row-sidebar"] button[aria-label="Stop execution"] {
+  background-color: transparent !important;
+  color: var(--claude-text-secondary) !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+}
+
+[data-testid="conversation-row-sidebar"] [data-testid="conversation-kebab"]:hover,
+[data-testid="conversation-row-sidebar"] button[aria-label="Stop execution"]:hover {
+  background-color: rgba(20, 20, 19, 0.08) !important;
+  color: var(--claude-text-primary) !important;
+}
+
+[data-testid="conversation-row-sidebar"][data-selected="true"] :is(span, p, svg) {
+  color: var(--claude-text-primary) !important;
+}
+
+[data-testid="conversation-row-sidebar"]:focus-visible,
+[data-testid="conversation-row-sidebar"] a:focus-visible {
+  outline: 2px solid rgba(20, 20, 19, 0.14) !important;
+  outline-offset: -2px !important;
+}
+
+/* Status Indicators on Sidebar Rows & Hover Cards (Working Spinner & Waiting Dot) */
+[data-testid="status-loading-spinner"] {
+  color: var(--claude-accent) !important;
+  opacity: 1 !important;
+}
+
+/* Refine the 4-dot spinner inside hover cards & rows into a warm, cohesive pulse */
+[data-testid="status-loading-spinner"] [data-agent-state-dot] {
+  background-color: var(--claude-accent) !important;
+}
+
+div:has(> [data-testid="status-loading-spinner"]) + span,
+span:has(> [data-testid="status-loading-spinner"]) + span {
+  color: var(--claude-accent-strong) !important;
+  font-weight: 500 !important;
+}
+
+[data-testid="attention-dot"] {
+  background-color: var(--claude-status-waiting) !important;
+  box-shadow: 0 0 0 3px var(--claude-status-waiting-bg) !important;
+}
+
+[data-testid="status-unread-dot"] {
+  background-color: var(--claude-accent) !important;
+}
+
+/* Sidebar Quick Action Buttons (+ New session, History, Automations/Routines) */
+[data-testid="new-conversation-button"] {
+  background-color: var(--claude-bg-elevated) !important;
+  color: var(--claude-text-primary) !important;
+  border: 1px solid var(--claude-border-strong) !important;
+  border-radius: 8px !important;
+  box-shadow: var(--claude-shadow-card) !important;
+  font-weight: 500 !important;
+}
+
+[data-testid="new-conversation-button"]:hover {
+  background-color: var(--claude-bg-hover) !important;
+  border-color: var(--claude-accent) !important;
+}
+
+[data-testid="sidebar-footer"] {
+  background-color: var(--claude-bg-panel) !important;
+  border-top: 1px solid var(--claude-border-subtle) !important;
+  color: var(--claude-text-secondary) !important;
+}
+
+/* ==========================================================================
+   5. Center Conversation Canvas, User Bubbles & Markdown Elements
+   ========================================================================== */
+[data-testid="conversation-view"],
+[data-testid="conversation-view-scroll-container"] {
+  background-color: var(--claude-bg-canvas) !important;
+  color: var(--claude-text-primary) !important;
+}
+
+/* Unpin sticky user message header for smooth continuous reading like Claude */
+[data-testid="conversation-view"] .sticky:has([data-testid="user-input-step"]) {
+  position: static !important;
+  z-index: auto !important;
+}
+
+/* User Message Bubble (Claude Warm Sand Pill — floating on the right like Image 2) */
+[data-testid="user-input-step"] {
+  align-items: flex-end !important;
+}
+
+[data-testid="user-input-step"] > div {
+  width: fit-content !important;
+  max-width: 82% !important;
+  margin-left: auto !important;
+}
+
+[data-testid="user-input-step"] .bg-card-border {
+  background: transparent !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
+[data-testid="user-message-bubble"] {
+  background-color: #EFECE3 !important;
+  border: 1px solid #DFDBD0 !important;
+  color: var(--claude-text-primary) !important;
+  border-radius: 14px !important;
+  padding: 8px 14px !important;
+  box-shadow: 0 1px 2px rgba(20, 20, 19, 0.03) !important;
+  width: fit-content !important;
+}
+
+/* Remove Chromium mask-image gradient on normal user messages that causes compositing box & faded bottom text */
+[data-testid="user-message-bubble"] > div[style*="mask-image"] {
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* Hover action bar inside user message bubble (timestamp / copy / undo) */
+[data-testid="user-message-bubble"] .user-input-buttons-container {
+  background-color: #EFECE3 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: -12px 0 14px 4px #EFECE3 !important;
+}
+
+[data-testid="user-input-step-text"],
+[data-testid="user-input-step"] .whitespace-pre-wrap,
+[data-testid="user-input-step"] [data-quotable="true"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--claude-text-primary) !important;
+  font-family: var(--claude-font-sans) !important;
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+}
+
+/* Thinking & Tool Group Collapsible Pills (Claude Subtle Parchment Pill) */
+[data-testid="thinking-collapsible-trigger"],
+[data-testid="worked-for-collapsible"],
+[data-testid="tool-group-collapsible"] {
+  background-color: var(--claude-bg-panel) !important;
+  border: 1px solid var(--claude-border-subtle) !important;
+  border-radius: 8px !important;
+  padding: 5px 10px !important;
+  color: var(--claude-text-secondary) !important;
+  font-size: 12.5px !important;
+  transition: background-color 120ms ease, border-color 120ms ease !important;
+}
+
+[data-testid="thinking-collapsible-trigger"]:hover,
+[data-testid="worked-for-collapsible"]:hover,
+[data-testid="tool-group-collapsible"]:hover {
+  background-color: var(--claude-bg-hover) !important;
+  border-color: var(--claude-border-strong) !important;
+  color: var(--claude-text-primary) !important;
+}
+
+/* Code Blocks & Inline Code */
+:not(pre) > code {
+  background-color: var(--claude-bg-subtle) !important;
+  color: #9E472A !important;
+  border: 1px solid var(--claude-border-subtle) !important;
+  padding: 1.5px 5px !important;
+  border-radius: 5px !important;
+  font-size: 0.86em !important;
+}
+
+pre,
+div.relative.rounded-xl:has(> .min-h-7),
+div.relative:has(> pre) {
+  background-color: #F4F2EB !important;
+  border: 1px solid var(--claude-border-subtle) !important;
+  border-radius: 10px !important;
+  color: var(--claude-text-primary) !important;
+  box-shadow: inset 0 1px 2px rgba(20, 20, 19, 0.02) !important;
+}
+
+/* Blockquotes & Tables */
+blockquote {
+  border-left: 3px solid var(--claude-accent) !important;
+  background-color: rgba(217, 119, 87, 0.07) !important;
+  border-radius: 0 8px 8px 0 !important;
+  padding: 8px 16px !important;
+  color: var(--claude-text-secondary) !important;
+}
+
+table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border: 1px solid var(--claude-border-subtle) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  background-color: var(--claude-bg-elevated) !important;
+  font-family: var(--claude-font-sans) !important;
+  font-size: 13.5px !important;
+}
+
+th {
+  background-color: var(--claude-bg-panel) !important;
+  color: var(--claude-text-primary) !important;
+  font-weight: 600 !important;
+  border-bottom: 1px solid var(--claude-border-subtle) !important;
+}
+
+td {
+  border-bottom: 1px solid var(--claude-border-subtle) !important;
+  color: var(--claude-text-primary) !important;
+}
+
+tr:nth-child(even) td {
+  background-color: #FAF8F3 !important;
+}
+
+/* ==========================================================================
+   6. Bottom Composer Input Box & Terracotta Send Button
+   ========================================================================== */
+
+/* Empty / Split Pane: Put Conversation History on top and dock Chat Input Box firmly at the bottom */
+[data-testid="conversation-view"] {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+}
+
+[data-testid="conversation-view"] > div:has([data-testid="agent-input-box"]),
+[data-testid="conversation-view"] > div.relative.w-full.px-4.pb-2 {
+  margin-top: auto !important;
+  margin-bottom: 0 !important;
+  flex-shrink: 0 !important;
+}
+
+div.h-full.flex.flex-col.items-center.p-8:has(> .max-w-2xl [data-testid="agent-input-box"]) {
+  padding: 20px 16px 8px 16px !important;
+}
+
+div.max-w-2xl.flex.flex-col.h-full:has([data-testid="agent-input-box"]) {
+  gap: 14px !important;
+  justify-content: flex-end !important;
+}
+
+div.max-w-2xl.flex.flex-col.h-full:has([data-testid="agent-input-box"]) > div:not(:has([data-testid="agent-input-box"])) {
+  order: 1 !important;
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+}
+
+div.max-w-2xl.flex.flex-col.h-full:has([data-testid="agent-input-box"]) > div:has([data-testid="agent-input-box"]) {
+  order: 2 !important;
+  margin-top: auto !important;
+  margin-bottom: 0 !important;
+  padding-top: 8px !important;
+}
+
+[data-testid="agent-input-box"],
+[data-testid="agent-input-box"] > .rounded-2xl,
+[data-testid="agent-input-box"]:focus-within > .rounded-2xl,
+.surface-composer,
+.surface-composer:focus-within {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 0 !important;
+}
+
+/* Single quiet warm-stone border on the inner card only — no loud orange focus ring */
+[data-testid="agent-input-box"] .surface-composer-card,
+[data-testid="agent-input-box"] > div > .bg-card:not([data-mention-menu]) {
+  background-color: var(--claude-bg-elevated) !important;
+  border: 1px solid #DCD9D0 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 2px 10px rgba(20, 20, 19, 0.04), 0 1px 2px rgba(20, 20, 19, 0.02) !important;
+  color: var(--claude-text-primary) !important;
+  outline: none !important;
+  transition: border-color 140ms ease, box-shadow 140ms ease !important;
+}
+
+[data-testid="agent-input-box"]:focus-within .surface-composer-card,
+[data-testid="agent-input-box"]:focus-within > div > .bg-card:not([data-mention-menu]) {
+  border-color: #C2BEB2 !important;
+  box-shadow: 0 4px 16px rgba(20, 20, 19, 0.06), 0 1px 3px rgba(20, 20, 19, 0.03) !important;
+  outline: none !important;
+}
+
+[data-testid="agent-input-box"] [contenteditable="true"],
+[data-testid="agent-input-box"] [contenteditable="true"]:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+[data-testid="agent-input-box"] [role="combobox"][contenteditable],
+[data-testid="agent-input-box"] [role="combobox"][contenteditable] *,
+[data-testid="composer-input"] {
+  color: var(--claude-text-primary) !important;
+  caret-color: var(--claude-accent) !important;
+  font-family: var(--claude-font-sans) !important;
+}
+
+/* Send Button (Claude Terracotta Pill) */
+[data-testid="send-button"]:not(:disabled):not([disabled]):not([aria-disabled="true"]) {
+  background-color: var(--claude-accent) !important;
+  color: #FFFFFF !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 6px rgba(217, 119, 87, 0.28) !important;
+}
+
+[data-testid="send-button"]:not(:disabled):not([disabled]):not([aria-disabled="true"]):hover {
+  background-color: var(--claude-accent-strong) !important;
+  transform: translateY(-1px);
+}
+
+[data-testid="send-button"]:disabled,
+[data-testid="send-button"][disabled],
+[data-testid="send-button"][aria-disabled="true"] {
+  background-color: var(--claude-bg-hover) !important;
+  color: var(--claude-text-muted) !important;
+  border: 1px solid var(--claude-border-subtle) !important;
+  border-radius: 8px !important;
+}
+
+/* ==========================================================================
+   7. Dialogs, Popovers, Tooltips, File Changes & Scrollbars
+   ========================================================================== */
+[role="dialog"],
+[role="menu"],
+[role="tooltip"],
+[data-base-ui-tooltip-popup],
+[data-radix-popper-content-wrapper] > div,
+.bg-popover {
+  background-color: var(--claude-bg-elevated) !important;
+  border: 1px solid var(--claude-border-subtle) !important;
+  box-shadow: 0 6px 20px rgba(20, 20, 19, 0.08), 0 1px 3px rgba(20, 20, 19, 0.04) !important;
+  color: var(--claude-text-primary) !important;
+  border-radius: 10px !important;
+}
+
+/* Sidebar conversation hover preview card (Hac: .flex.flex-col.gap-1.5.p-3) */
+div:has(> .flex.flex-col.gap-1\.5.p-3) {
+  background-color: var(--claude-bg-canvas) !important;
+  border: 1px solid var(--claude-border-strong) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 6px 20px rgba(20, 20, 19, 0.08), 0 1px 3px rgba(20, 20, 19, 0.04) !important;
+}
+
+.flex.flex-col.gap-1\.5.p-3 > .text-sm.text-foreground {
+  font-family: var(--claude-font-serif) !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: var(--claude-text-primary) !important;
+}
+
+/* ==========================================================================
+   11. Inline Changed Files Card (Claude Desktop Style: strictly aligned, monospace diff stats)
+   ========================================================================== */
+[data-testid="changed-files-card"] {
+  width: 100% !important;
+  max-width: var(--max-conversation-width, 800px) !important;
+  margin: 6px 0 !important;
+  border-radius: 9px !important;
+  box-sizing: border-box !important;
+}
+
+[data-testid="changed-files-card-header"],
+.files-changed-header {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  padding: 0 12px !important;
+  background-color: var(--claude-bg-canvas, #FAF9F5) !important;
+  border: 1px solid var(--claude-border-subtle, #E6E4DD) !important;
+  border-radius: 9px !important;
+  box-shadow: none !important;
+  transition: all 120ms ease !important;
+  line-height: 1 !important;
+}
+
+[data-testid="changed-files-card-header"]:hover {
+  background-color: var(--claude-bg-elevated, #FFFFFF) !important;
+  border-color: var(--claude-border-strong, #D5D2C8) !important;
+}
+
+/* Left part: "2 files changed", "+596", "-54", chevron */
+[data-testid="changed-files-card-header"] > div.flex {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  line-height: 1 !important;
+  vertical-align: middle !important;
+}
+
+/* "2 files changed" text */
+[data-testid="changed-files-card-header"] span.truncate {
+  font-family: var(--claude-font-sans, "Inter", sans-serif) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: var(--claude-text-primary, #141413) !important;
+  line-height: 1 !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+/* Diff stats wrapper "+596 -54" */
+[data-testid="changed-files-card-header"] div.flex.items-center.gap-0\.5,
+[data-testid="changed-files-card-header"] div.gap-0\.5 {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  font-family: var(--claude-font-mono, "JetBrains Mono", monospace) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-variant-numeric: tabular-nums !important;
+  line-height: 1 !important;
+  vertical-align: middle !important;
+}
+
+/* Addition green stat */
+[data-testid="changed-files-card-header"] span.text-green-500 {
+  color: var(--claude-diff-add-text, #226646) !important;
+  font-family: var(--claude-font-mono, "JetBrains Mono", monospace) !important;
+  font-variant-numeric: tabular-nums !important;
+  line-height: 1 !important;
+}
+
+/* Deletion red stat */
+[data-testid="changed-files-card-header"] span.text-red-500 {
+  color: var(--claude-diff-del-text, #B9382C) !important;
+  font-family: var(--claude-font-mono, "JetBrains Mono", monospace) !important;
+  font-variant-numeric: tabular-nums !important;
+  line-height: 1 !important;
+}
+
+/* Chevron arrow */
+[data-testid="changed-files-card-header"] svg.shrink-0 {
+  display: inline-flex !important;
+  align-self: center !important;
+  width: 13px !important;
+  height: 13px !important;
+  color: var(--claude-text-muted, #8C8A82) !important;
+  vertical-align: middle !important;
+  margin-left: 2px !important;
+}
+
+/* Review button: Claude quiet pill */
+[data-testid="changed-files-card-review"],
+[data-testid="changed-files-card-header"] button.review-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 24px !important;
+  padding: 0 9px !important;
+  border-radius: 6px !important;
+  background-color: var(--claude-bg-elevated, #FFFFFF) !important;
+  border: 1px solid var(--claude-border-strong, #D5D2C8) !important;
+  color: var(--claude-text-primary, #141413) !important;
+  font-family: var(--claude-font-sans, "Inter", sans-serif) !important;
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  box-shadow: 0 1px 2px rgba(20, 20, 19, 0.03) !important;
+  cursor: pointer !important;
+  transition: all 120ms ease !important;
+}
+
+[data-testid="changed-files-card-review"]:hover,
+[data-testid="changed-files-card-header"] button.review-button:hover {
+  background-color: var(--claude-bg-hover, #EAE6DF) !important;
+  border-color: #B8B4A7 !important;
+}
+
+/* Selection Highlight (Claude Official soft-stone shading vs Native OS Blue option) */
+:root {
+  --claude-selection-bg: rgba(20, 20, 19, 0.10); /* Claude subtle warm-stone / taupe */
+  --claude-selection-text: inherit;
+}
+
+body[data-claude-selection="native"] {
+  --claude-selection-bg: rgba(0, 120, 215, 0.22); /* Native OS light-blue */
+}
+
+::selection {
+  background: var(--claude-selection-bg, rgba(20, 20, 19, 0.10)) !important;
+  color: var(--claude-selection-text, inherit) !important;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-clip: content-box;
+  background-color: #D0CCC0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--claude-accent);
+}
